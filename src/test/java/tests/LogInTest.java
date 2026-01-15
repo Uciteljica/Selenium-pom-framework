@@ -1,6 +1,7 @@
 package tests;
 
 import org.junit.Test;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -33,13 +34,31 @@ public class LogInTest extends BaseTest {
 
         // 3. Provera da je logovanje uspelo
         SecureAreaPage secureAreaPage = new SecureAreaPage(driver);
+
+        try {
+            WebDriverWait waitAlert = new WebDriverWait(driver, Duration.ofSeconds(3));
+            Alert alert = waitAlert.until(driver -> {
+                try {
+                    return driver.switchTo().alert();
+                } catch (Exception e) {
+                    return null;
+                }
+            });
+
+            if (alert != null) {
+                alert.accept(); // prihvati alert
+            }
+        } catch (Exception e) {
+            // Ako alert nije prisutan, nastavi normalno
+        }
+
         assertTrue(secureAreaPage.getFlashMessage().contains("You logged into a secure area!"));
 
-        // 4. Odloguj se
+        // 4. Odlogujem se
         secureAreaPage.LogOutAction();
         assertTrue(secureAreaPage.getFlashMessage().contains("You logged out of the secure area!"));
 
-        // 5. Vrati se na glavnu stranicu
+        // 5. Vratim se na glavnu stranicu
         driver.get("https://the-internet.herokuapp.com/");
 
         // 6. Klik na Dropdown link
@@ -48,7 +67,7 @@ public class LogInTest extends BaseTest {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", dropdownElement);
         dropdownElement.click();
 
-        // 7. Čekaj da dropdown element bude vidljiv
+        // 7. Čekam da dropdown element bude vidljiv
         By dropdownId = By.id("dropdown");
         WebElement dropdown = wait.until(ExpectedConditions.visibilityOfElementLocated(dropdownId));
 
