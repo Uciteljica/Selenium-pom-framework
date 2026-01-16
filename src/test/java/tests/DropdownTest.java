@@ -29,6 +29,8 @@ public class DropdownTest extends BaseTest{
 
             // vezba za git commit
 
+            System.out.println("Git vezba");
+
         }
     }
 
