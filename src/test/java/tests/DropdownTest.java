@@ -26,6 +26,9 @@ public class DropdownTest extends BaseTest{
 
             dropdownPage.selectOption("Option 1");
             assertEquals("Option 1", dropdownPage.getSelectedOption());
+
+            // vezba za git commit
+
         }
     }
 

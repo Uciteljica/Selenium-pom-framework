@@ -78,6 +78,10 @@ public class LogInTest extends BaseTest {
         // 9. Provera selektovane opcije
         assertEquals("Option 1", dropdownPage.getSelectedOption());
     }
+
+
+
+
 }
 
 
